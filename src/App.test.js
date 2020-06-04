@@ -66,6 +66,58 @@ test('renders on clicking increment button', () => {
   expect(counterValue.text()).toContain(counter + 1);
 });
 
+test('renders decrement button', () => {
+  const wrapper = setup();
+  const decrementButton = appComponentAttr(wrapper, 'decrement-button-app');
+  expect(decrementButton.length).toBe(1);
+});
+
+test('renders on clicking decrement button', () => {
+  let counter = 7;
+  const wrapper = setup({}, {counter});
+  
+  const decrementButton = appComponentAttr(wrapper, 'decrement-button-app');
+  decrementButton.simulate('click');
+
+  const counterValue = appComponentAttr(wrapper, 'counter-currentvalue-app');
+  expect(counterValue.text()).toContain(counter - 1);
+   
+})
+
+test('renders on clicking decrement button and counter is Zero', () => {
+  let counter = 0;
+  const wrapper = setup({}, {counter});
+  
+  const decrementButton = appComponentAttr(wrapper, 'decrement-button-app');
+  decrementButton.simulate('click');
+
+  const counterValue = appComponentAttr(wrapper, 'counter-currentvalue-app');
+  expect(counterValue.text()).toContain(counter);
+   
+})
+
+test('renders error message when counter reached zero and decrement the counter', () => {
+  let counter = 0;
+  const wrapper = setup({}, {counter});
+
+  const decrementButton = appComponentAttr(wrapper, 'decrement-button-app');
+  decrementButton.simulate('click');
+
+  const errorMessage = appComponentAttr(wrapper, 'counter-error-message');
+  expect(errorMessage.length).toBe(1);
+})
+
+test('renders no error message when counter is zero and increment counter', () => {
+  let counter = 0;
+  const wrapper = setup({}, {counter});
+
+  const incrementButton = appComponentAttr(wrapper, 'increment-button-app');
+  incrementButton.simulate('click');
+  
+  const errorMessage = appComponentAttr(wrapper, 'counter-error-message');
+  expect(errorMessage.length).toBe(0);
+})
+
 /* import { render } from '@testing-library/react'; */
 
 /* test('renders learn react link', () => {
